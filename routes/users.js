@@ -11,6 +11,7 @@ router.get('/users/:id', UsersController.getUserById);
 
 router.post('/users/', UsersController.create);
 router.post('/users/login', UsersController.login);
+
 router.patch('/users/subscribe', UsersGuard.subscribe, UsersController.subscribe);
 router.patch('/users/unsubscribe', UsersGuard.unsubscribe, UsersController.unsubscribe);
 
