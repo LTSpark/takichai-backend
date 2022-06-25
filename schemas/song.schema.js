@@ -37,7 +37,7 @@ const SongSchema = Schema({
         required: [true, 'Song image is required']
     },
     duration: {
-        type: Number,
+        type: String,
         required: [true, 'Duration is required']
     },
     instrumental: {

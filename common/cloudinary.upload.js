@@ -12,6 +12,12 @@ const fileToBase64 = (mimetype, data) => {
     return 'data:' + mimetype + ';base64,' + base64Buffer;
 }
 
+const secondsToMinutes = durationSeconds => {
+    let minutes = (Math.floor(durationSeconds/60)).toString();
+    let seconds = (Math.floor(durationSeconds%60)).toString();
+    return minutes + ":" + seconds;
+}
+
 const cloudinaryImageUpload = async file => {
 
     const imageBase64 = fileToBase64(file.mimetype, file.data); //use tempdir to avoid using node fs
@@ -29,7 +35,7 @@ const cloudinaryAudioUpload = async file  => {
         image_metadata: true
     });
 
-    return { url, duration };
+    return { url, duration: secondsToMinutes(duration) };
 
 }
 
