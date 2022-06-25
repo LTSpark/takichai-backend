@@ -29,8 +29,13 @@ const UserSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'Users'
         }
+    ],
+    songs: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Songs'
+        }
     ]
-
 }, {
     timestamps: true
 });
