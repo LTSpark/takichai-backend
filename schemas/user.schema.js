@@ -35,6 +35,12 @@ const UserSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'Songs'
         }
+    ],
+    favouriteSongs: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Songs'
+        }
     ]
 }, {
     timestamps: true
