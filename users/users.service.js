@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require('../schemas/user.schema');
+const Utils = require('../common/utils/utils');
 const { errorFactory } = require("../common/exception.factory");
 
 class UsersService {
@@ -28,8 +29,12 @@ class UsersService {
         return { user, token };
     }
 
-    async getAll() {
-        return await User.find({}).exec();
+    async getAll(query={}, from=0, limit=0, sort='_id', order='asc') {
+        return await User.find(query)
+            .skip(Number(from))
+            .limit(Number(limit))
+            .sort(Utils.parseSort(sort, order))
+            .exec();
     }
 
     async getOne(id) {

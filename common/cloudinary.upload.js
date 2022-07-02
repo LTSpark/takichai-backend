@@ -19,32 +19,25 @@ const secondsToMinutes = durationSeconds => {
 }
 
 const cloudinaryImageUpload = async file => {
-
     const imageBase64 = fileToBase64(file.mimetype, file.data);
     const { url } = await cloudinary.uploader.upload( imageBase64, {folder:`Takichai/Images`});
     return { url };
-
 }
 
 const cloudinaryAudioUpload = async file  => {
-
     const audioBase64 = fileToBase64(file.mimetype, file.data);
     const { url, duration } = await cloudinary.uploader.upload( audioBase64, {
         folder: 'Takichai/Songs',
         resource_type: 'video',
         image_metadata: true
     });
-
     return { url, duration: secondsToMinutes(duration) };
-
 }
 
 const cloudinaryDelete = (photoUrl, folder) => {
-
     const splittedUrl = photoUrl.split('/');
     const [ name ] = splittedUrl[splittedUrl.length-1].split('.');
     cloudinary.uploader.destroy( `Takichai/${folder}/${name}` );
-
 }
 
 module.exports = {

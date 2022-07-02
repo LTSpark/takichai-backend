@@ -1,5 +1,7 @@
 const { Router } = require('express');
+const { fieldValidation } = require('../common/validators/field-validation');
 
+const { query } = require('express-validator');
 const router = Router();
 
 const UsersController = require('../users/users.controller');
@@ -7,7 +9,7 @@ const UsersGuard = require('../users/users.guard');
 
 router.get('/user', UsersGuard.getLoggedUser, UsersController.getLoggedUser);
 
-router.get('/users', UsersController.getAll);
+router.get('/users', UsersGuard.getAll, UsersController.getAll);
 router.get('/users/:id', UsersController.getUserById);
 
 router.post('/users/', UsersController.create);

@@ -49,15 +49,14 @@ class UsersController {
     }
 
     async getAll(req, res) {
-        const users = await UsersService.getAll();
+        const { from, limit, sort, order } = req.query;
+        const users = await UsersService.getAll({}, from, limit, sort, order);
         return res.json({
             ok: true,
             users,
             totalUsers: users.length || 0
         })
     }
-
-
 
     async getUserById(req, res) {
         const user = await UsersService.getOne(req.params.id);
@@ -76,7 +75,7 @@ class UsersController {
     async subscribe(req, res) {
         try {
             const { id: subscriptionId } = req.query;
-            const { id: userId } = req.user
+            const { id: userId } = req.user;
             const user = await UsersService.subscribe(userId, subscriptionId);
             return res.status(200).json({
                 user,
@@ -97,7 +96,7 @@ class UsersController {
     async unsubscribe(req, res) {
         try {
             const { id:  unsubscriptionId } = req.query;
-            const { id: userId } = req.user
+            const { id: userId } = req.user;
             const user = await UsersService.unsubscribe(userId, unsubscriptionId);
             return res.status(200).json({
                 user,

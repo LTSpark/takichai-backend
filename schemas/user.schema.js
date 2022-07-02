@@ -41,9 +41,14 @@ const UserSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'Songs'
         }
-    ]
+    ],
+    publicProfile: {
+        type: Boolean,
+        default: false
+    }
 }, {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
 });
 
 

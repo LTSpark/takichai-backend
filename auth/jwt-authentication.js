@@ -7,13 +7,13 @@ const authUser = async (req, res, next) => {
         return res.status(400).json({
             ok: false,
             msg: "Token not found"
-        })
+        });
     
     if(!authHeader.startsWith("Bearer ", 0))
         return res.status(400).json({
             ok: false,
             msg: "Bad authorization"
-        })
+        });
     
     const token = authHeader.substring(7, authHeader.length);
 
