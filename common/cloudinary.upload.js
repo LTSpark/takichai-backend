@@ -1,6 +1,6 @@
 const cloudinary = require('cloudinary').v2 ;
 
-cloudinary.config({ 
+cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
     api_key: process.env.CLOUDINARY_API_KEY, 
     api_secret: process.env.CLOUDINARY_API_SECRET,
@@ -20,7 +20,7 @@ const secondsToMinutes = durationSeconds => {
 
 const cloudinaryImageUpload = async file => {
 
-    const imageBase64 = fileToBase64(file.mimetype, file.data); //use tempdir to avoid using node fs
+    const imageBase64 = fileToBase64(file.mimetype, file.data);
     const { url } = await cloudinary.uploader.upload( imageBase64, {folder:`Takichai/Images`});
     return { url };
 
@@ -28,7 +28,7 @@ const cloudinaryImageUpload = async file => {
 
 const cloudinaryAudioUpload = async file  => {
 
-    const audioBase64 = fileToBase64(file.mimetype, file.data); //use tempdir to avoid using node fs
+    const audioBase64 = fileToBase64(file.mimetype, file.data);
     const { url, duration } = await cloudinary.uploader.upload( audioBase64, {
         folder: 'Takichai/Songs',
         resource_type: 'video',
@@ -42,7 +42,7 @@ const cloudinaryAudioUpload = async file  => {
 const cloudinaryDelete = (photoUrl, folder) => {
 
     const splittedUrl = photoUrl.split('/');
-    const [ name ] = splittedUrl[splittedUrl.length-1].split('.');//get public_id and  cut the extension
+    const [ name ] = splittedUrl[splittedUrl.length-1].split('.');
     cloudinary.uploader.destroy( `Takichai/${folder}/${name}` );
 
 }

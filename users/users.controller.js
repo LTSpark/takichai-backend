@@ -42,11 +42,22 @@ class UsersController {
         }
     }
 
-    async getLoggedUser(req, res) {
+    getLoggedUser(req, res) {
         return res.json({
             user: req.user
         });
     }
+
+    async getAll(req, res) {
+        const users = await UsersService.getAll();
+        return res.json({
+            ok: true,
+            users,
+            totalUsers: users.length || 0
+        })
+    }
+
+
 
     async getUserById(req, res) {
         const user = await UsersService.getOne(req.params.id);

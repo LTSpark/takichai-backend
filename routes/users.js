@@ -7,6 +7,7 @@ const UsersGuard = require('../users/users.guard');
 
 router.get('/user', UsersGuard.getLoggedUser, UsersController.getLoggedUser);
 
+router.get('/users', UsersController.getAll);
 router.get('/users/:id', UsersController.getUserById);
 
 router.post('/users/', UsersController.create);
