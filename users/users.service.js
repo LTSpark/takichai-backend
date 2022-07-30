@@ -77,14 +77,14 @@ class UsersService {
         user.description = description;
         user.publicProfile = publicProfile;
 
-        if (password) 
-            user.password = bcrypt.hashSync(password, 10);
-            
-        if (img)
-            if (user.imgUrl)
-                cloudinaryDelete(user.imgUrl, 'Images');
+        if (password) user.password = bcrypt.hashSync(password, 10);
+        
+        if (img) {
+            if (user.imgUrl) cloudinaryDelete(user.imgUrl, 'Images');
             let { url } = await cloudinaryImageUpload(img);
             user.imgUrl = url;
+        }
+            
         
         user.updatedAt = Date.now();
         return user.save();
