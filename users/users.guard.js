@@ -1,4 +1,4 @@
-const { query } = require('express-validator');
+const { query, body } = require('express-validator');
 
 const { authUser } = require("../auth/jwt-authentication");
 const { fieldValidation } = require("../common/validators/field-validation");
@@ -29,6 +29,14 @@ class UsersGuard {
         query("limit", "Limit has to be a positive integer").optional().isInt({ min: 0 }),
         fieldValidation
     ];
+
+    update = [
+        authUser,
+        body("description").optional().not().isEmpty(),
+        body("publicProfile").optional().isBoolean(),
+        body("password").optional().not().isEmpty(),
+        fieldValidation
+    ]
 
 }
 

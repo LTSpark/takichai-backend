@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../schemas/user.schema');
 const Utils = require('../common/utils/utils');
 const { errorFactory } = require("../common/exception.factory");
+const { cloudinaryDelete, cloudinaryImageUpload } = require('../common/cloudinary.upload');
 
 class UsersService {
 
@@ -69,6 +70,24 @@ class UsersService {
                 subscriptions: unsubscriptionId
             }
         }, { new: true }).exec();
+    }
+
+    async update(id, description, img, password, publicProfile) {
+        let user = await User.findById(id).exec();
+        user.description = description;
+        user.publicProfile = publicProfile;
+
+        if (password) 
+            user.password = bcrypt.hashSync(password, 10);
+            
+        if (img)
+            if (user.imgUrl)
+                cloudinaryDelete(user.imgUrl, 'Images');
+            let { url } = await cloudinaryImageUpload(img);
+            user.imgUrl = url;
+        
+        user.updatedAt = Date.now();
+        return user.save();
     }
 
 }

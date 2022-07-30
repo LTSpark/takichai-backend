@@ -45,6 +45,9 @@ const UserSchema = Schema({
     publicProfile: {
         type: Boolean,
         default: false
+    },
+    imgUrl: {
+        type: String
     }
 }, {
     timestamps: true,

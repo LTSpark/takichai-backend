@@ -49,8 +49,12 @@ class UsersController {
     }
 
     async getAll(req, res) {
-        const { from, limit, sort, order } = req.query;
-        const users = await UsersService.getAll({}, from, limit, sort, order);
+        const { from, limit, sort, order, name, publicProfile } = req.query;
+        const query = {
+            name: new RegExp(name, 'i'),
+            publicProfile
+        };
+        const users = await UsersService.getAll(query, from, limit, sort, order);
         return res.json({
             ok: true,
             users,
@@ -109,6 +113,27 @@ class UsersController {
             return res.status(error.code).json({
                 ok: false,
                 msg: "User unsubscription failed!",
+                detail: error.message
+            });
+        }
+    }
+
+    async update(req, res) {
+        try {
+            const { description, publicProfile, password } = req.body;
+            const { id: userId } = req.user;
+            const updatedUser = await UsersService.update(userId, description, req.files.img, password, publicProfile);
+            return res.status(200).json({
+                updatedUser,
+                msg: `Updated user with id ${userId}!`,
+                ok: true
+            });
+        }
+        catch(error) {
+            console.error(`Error: ${error.message}`);
+            return res.status(error.code).json({
+                ok: false,
+                msg: "User update failed!",
                 detail: error.message
             });
         }
