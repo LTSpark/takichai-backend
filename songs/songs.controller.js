@@ -49,6 +49,24 @@ class SongsController {
         });
     }
 
+    async addFavourite(req, res) {
+        try {
+            const { id } = req.user;
+            await SongsService.addFavouriteSong(id, req.params.id);
+            return res.status(201).json({
+                msg: "Song added to favourites!",
+                ok: true
+            });
+        }
+        catch(error) {
+            console.error(`Error: ${error.message}`);
+            return res.status(500).json({
+                error,
+                msg: "Favourite adding failed!"
+            });
+        }
+    }
+
 
 
 }
