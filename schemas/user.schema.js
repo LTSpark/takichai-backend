@@ -21,25 +21,25 @@ const UserSchema = Schema({
     subscribers: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Users'
+            ref: 'User'
         }
     ],
     subscriptions: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Users'
+            ref: 'User'
         }
     ],
     songs: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Songs'
+            ref: 'Song'
         }
     ],
     favouriteSongs: [
         {
             type: Schema.Types.ObjectId,
-            ref: 'Songs'
+            ref: 'Song'
         }
     ],
     publicProfile: {

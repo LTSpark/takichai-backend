@@ -1,6 +1,8 @@
 const Song = require('../schemas/song.schema');
 const User= require('../schemas/user.schema');
 
+const Utils = require('../common/utils/utils');
+
 const { cloudinaryAudioUpload, cloudinaryImageUpload } = require("../common/cloudinary.upload");
 
 class SongsService {
@@ -34,6 +36,26 @@ class SongsService {
 
         return song.save();
 
+    }
+
+    async getAll(query={}, from=0, limit=0, sort='_id', order='asc') {
+        return await Song.find(query)
+            .skip(Number(from))
+            .limit(Number(limit))
+            .sort(Utils.parseSort(sort, order))
+            .exec();
+    }
+
+    async getOne(id) {
+        return await Song.findById(id).populate('author').exec();
+    }
+
+    async addFavouriteSong(userId, songId) {
+        User.findByIdAndUpdate(userId, {
+            $addToSet: {
+                favouriteSongs: songId
+            }
+        }).exec();
     }
 }
 

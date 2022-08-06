@@ -120,15 +120,12 @@ class UsersController {
 
     async update(req, res) {
         try {
-            let img = '';
+            let img;
             const { description, publicProfile, password } = req.body;
             const { id: userId } = req.user;
             if (req.files) {
-                if (req.files.img) {
-                    img = req.files.img;
-                }   
+                if (req.files.img) img = req.files.img; 
             }
-
             const updatedUser = await UsersService.update(userId, description, img, password, publicProfile);
             return res.status(200).json({
                 updatedUser,

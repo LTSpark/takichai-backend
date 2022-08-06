@@ -39,7 +39,12 @@ class UsersService {
     }
 
     async getOne(id) {
-        return await User.findById(id).exec();
+        return await User.findById(id)
+            .populate('subscriptions')
+            .populate('subscribers')
+            .populate('favouriteSongs')
+            .populate('songs')
+            .exec();
     }
 
     async getByEmail() {
@@ -84,8 +89,7 @@ class UsersService {
             let { url } = await cloudinaryImageUpload(img);
             user.imgUrl = url;
         }
-            
-        
+              
         user.updatedAt = Date.now();
         return user.save();
     }
