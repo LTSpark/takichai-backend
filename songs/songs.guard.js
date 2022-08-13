@@ -1,15 +1,13 @@
-const { query, param } = require('express-validator');
+const { query, param, body } = require('express-validator');
 
 const { authUser } = require("../auth/jwt-authentication");
 const { fieldValidation } = require("../common/validators/field-validation");
 
 class SongsGuard {
 
-    create(req, res, next) {
-        return [
-            authUser(req, res, next)
-        ];
-    }
+    create = [
+        authUser
+    ] 
 
     getSongById = [
         param("id").isMongoId(),
