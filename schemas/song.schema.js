@@ -33,8 +33,7 @@ const SongSchema = Schema({
         default: 0
     },
     imageUrl: {
-        type: String,
-        required: [true, 'Song image is required']
+        type: String
     },
     duration: {
         type: String,

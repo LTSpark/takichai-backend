@@ -4,8 +4,12 @@ class SongsController {
 
     async create(req, res) {
         try {
-            const { id } = req.user;
-            const song = await SongsService.create(req.body, req.files.song, req.files.img, id);
+            let img;
+            const { id } = req.user;  
+            if (req.files) {
+                if (req.files.img) img = req.files.img; 
+            }
+            const song = await SongsService.create(req.body, req.files.song, img, id);
             return res.status(201).json({
                 song,
                 msg: "Song created successfully!",
@@ -69,10 +73,10 @@ class SongsController {
 
     async delete(req, res) {
         try {
-            const { id: songId } = req.params;
-            await SongsService.delete(songId);
+            const { id } = req.params;
+            await SongsService.delete(id);
             return res.status(200).json({
-                msg: `Deleted song with id ${songId}`,
+                msg: `Deleted song with id ${id}`,
                 ok: true
             });
         }

@@ -40,6 +40,12 @@ class UsersGuard {
         fieldValidation
     ]
 
+    delete = [
+        authUser,
+        param("id").isMongoId(),
+        fieldValidation
+    ]
+
 }
 
 module.exports = new UsersGuard();

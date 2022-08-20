@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const User = require('../schemas/user.schema');
+const Song = require('../schemas/song.schema');
+
 const Utils = require('../common/utils/utils');
 const { errorFactory } = require("../common/exception.factory");
 const { cloudinaryDelete, cloudinaryImageUpload } = require('../common/cloudinary.upload');
@@ -31,7 +33,6 @@ class UsersService {
     }
 
     async getAll(query={}, from=0, limit=10, sort='_id', order='asc') {
-        console.log(query)
         return await User.find(query)
             .skip(Number(from))
             .limit(Number(limit))
@@ -94,6 +95,20 @@ class UsersService {
               
         user.updatedAt = Date.now();
         return user.save();
+    }
+
+    async delete(userId) {
+        
+        const songs = await Song.find({ author: userId }).exec();
+        const user = await User.findByIdAndDelete(userId).exec();
+
+        await Song.deleteMany({ author: user }).exec();
+        await songs.forEach( song => {
+            console.log(song)
+            cloudinaryDelete(song.imageUrl, 'Images');
+            cloudinaryDelete(song.songUrl, 'Songs');
+        });
+
     }
 
 }

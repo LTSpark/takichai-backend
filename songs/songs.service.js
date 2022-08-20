@@ -18,15 +18,20 @@ class SongsService {
             instrumental, 
         } = createSong;
 
+
         const { url: songUrl, duration } = await cloudinaryAudioUpload(songFile);
-        const { url: imageUrl } = await cloudinaryImageUpload(imgFile);
 
         const song = new Song({
             name, year, genre, description,
             instrumental, songUrl,
-            imageUrl, mood, duration,
+            mood, duration,
             author: userId
         });
+
+        if (imgFile) {
+            let { url } = await cloudinaryImageUpload(imgFile);
+            song.imageUrl = url;
+        }
 
         await User.findByIdAndUpdate(userId, {
             $addToSet: {
