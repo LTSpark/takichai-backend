@@ -19,5 +19,6 @@ router.patch('/users/subscribe', UsersGuard.subscribe, UsersController.subscribe
 router.patch('/users/unsubscribe', UsersGuard.unsubscribe, UsersController.unsubscribe);
 
 router.put('/users/:id', UsersGuard.update, UsersController.update);
+router.delete('/users/:id', UsersGuard.delete, UsersController.delete);
 
 module.exports = router;

@@ -98,14 +98,14 @@ class UsersService {
     }
 
     async delete(userId) {
-        
+
         const songs = await Song.find({ author: userId }).exec();
         const user = await User.findByIdAndDelete(userId).exec();
 
         await Song.deleteMany({ author: user }).exec();
         await songs.forEach( song => {
             console.log(song)
-            cloudinaryDelete(song.imageUrl, 'Images');
+            if (song.imageUrl) cloudinaryDelete(song.imageUrl, 'Images');
             cloudinaryDelete(song.songUrl, 'Songs');
         });
 

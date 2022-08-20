@@ -50,7 +50,7 @@ class UsersController {
 
     async getAll(req, res) {
         const { from, limit, sort, order, name, publicProfile } = req.query;
-        
+
         const query = { name: new RegExp(name, 'i') };
         if (publicProfile) query.publicProfile = publicProfile;
 
@@ -139,6 +139,24 @@ class UsersController {
                 ok: false,
                 msg: "User update failed!",
                 detail: error.message
+            });
+        }
+    }
+
+    async delete(req, res) {
+        try {
+            const { id } = req.params;
+            await UsersService.delete(id);
+            return res.status(200).json({
+                msg: `Deleted user with id ${id}`,
+                ok: true
+            });
+        }
+        catch(error) {
+            console.error(`Error: ${error.message}`);
+            return res.status(500).json({
+                error,
+                msg: "Delete user failed!"
             });
         }
     }
