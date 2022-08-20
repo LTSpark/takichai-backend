@@ -23,6 +23,11 @@ class UsersGuard {
         ];
     }
 
+    getById = [
+        param("id").isMongoId(),
+        fieldValidation
+    ];
+
     getAll = [
         query("order").optional().isIn(["asc", "desc"]),
         query("from", "From has to be a positive integer").optional().isInt({ min: 0 }),
