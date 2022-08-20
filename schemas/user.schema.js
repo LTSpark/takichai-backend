@@ -48,6 +48,10 @@ const UserSchema = Schema({
     },
     imgUrl: {
         type: String
+    },
+    role: {
+        type: String,
+        default: 'USER'
     }
 }, {
     timestamps: true,

@@ -18,6 +18,6 @@ router.post('/users/login', UsersController.login);
 router.patch('/users/subscribe', UsersGuard.subscribe, UsersController.subscribe);
 router.patch('/users/unsubscribe', UsersGuard.unsubscribe, UsersController.unsubscribe);
 
-router.put('/users', UsersGuard.update, UsersController.update);
+router.put('/users/:id', UsersGuard.update, UsersController.update);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const { query, body } = require('express-validator');
+const { query, body, param } = require('express-validator');
 
 const { authUser } = require("../auth/jwt-authentication");
 const { fieldValidation } = require("../common/validators/field-validation");
@@ -32,8 +32,10 @@ class UsersGuard {
 
     update = [
         authUser,
+        param("id").isMongoId(),
         body("description").optional().not().isEmpty(),
         body("publicProfile").optional().isBoolean(),
+        body("role").optional().isIn(["ADMIN", "USER"]),
         body("password").optional().not().isEmpty(),
         fieldValidation
     ]

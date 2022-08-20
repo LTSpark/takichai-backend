@@ -37,7 +37,8 @@ const cloudinaryAudioUpload = async file  => {
 const cloudinaryDelete = (photoUrl, folder) => {
     const splittedUrl = photoUrl.split('/');
     const [ name ] = splittedUrl[splittedUrl.length-1].split('.');
-    cloudinary.uploader.destroy( `Takichai/${folder}/${name}` );
+    if (folder === 'Songs' ) cloudinary.uploader.destroy( `Takichai/${folder}/${name}`, { resource_type: 'video' });
+    if (folder === 'Images') cloudinary.uploader.destroy( `Takichai/${folder}/${name}`);
 }
 
 module.exports = {

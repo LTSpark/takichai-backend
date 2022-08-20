@@ -50,10 +50,10 @@ class UsersController {
 
     async getAll(req, res) {
         const { from, limit, sort, order, name, publicProfile } = req.query;
-        const query = {
-            name: new RegExp(name, 'i'),
-            publicProfile
-        };
+        
+        const query = { name: new RegExp(name, 'i') };
+        if (publicProfile) query.publicProfile = publicProfile;
+
         const users = await UsersService.getAll(query, from, limit, sort, order);
         return res.json({
             ok: true,
@@ -121,12 +121,12 @@ class UsersController {
     async update(req, res) {
         try {
             let img;
-            const { description, publicProfile, password } = req.body;
-            const { id: userId } = req.user;
+            const { description, publicProfile, password, role } = req.body;
+            const { id: userId } = req.params;
             if (req.files) {
                 if (req.files.img) img = req.files.img; 
             }
-            const updatedUser = await UsersService.update(userId, description, img, password, publicProfile);
+            const updatedUser = await UsersService.update(userId, description, img, password, publicProfile, role);
             return res.status(200).json({
                 updatedUser,
                 msg: `Updated user with id ${userId}!`,

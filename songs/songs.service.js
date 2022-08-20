@@ -3,7 +3,7 @@ const User= require('../schemas/user.schema');
 
 const Utils = require('../common/utils/utils');
 
-const { cloudinaryAudioUpload, cloudinaryImageUpload } = require("../common/cloudinary.upload");
+const { cloudinaryAudioUpload, cloudinaryImageUpload, cloudinaryDelete } = require("../common/cloudinary.upload");
 
 class SongsService {
 
@@ -54,6 +54,17 @@ class SongsService {
         User.findByIdAndUpdate(userId, {
             $addToSet: {
                 favouriteSongs: songId
+            }
+        }).exec();
+    }
+
+    async delete(songId) {
+        const song = await Song.findByIdAndDelete(songId).exec();
+        cloudinaryDelete(song.imageUrl, 'Images');
+        cloudinaryDelete(song.songUrl, 'Songs');
+        await User.findByIdAndUpdate(song.author, {
+            $pull: {
+                songs: songId
             }
         }).exec();
     }

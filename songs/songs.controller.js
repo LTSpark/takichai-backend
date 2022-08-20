@@ -53,7 +53,7 @@ class SongsController {
         try {
             const { id } = req.user;
             await SongsService.addFavouriteSong(id, req.params.id);
-            return res.status(201).json({
+            return res.status(200).json({
                 msg: "Song added to favourites!",
                 ok: true
             });
@@ -63,6 +63,24 @@ class SongsController {
             return res.status(500).json({
                 error,
                 msg: "Favourite adding failed!"
+            });
+        }
+    }
+
+    async delete(req, res) {
+        try {
+            const { id: songId } = req.params;
+            await SongsService.delete(songId);
+            return res.status(200).json({
+                msg: `Deleted song with id ${songId}`,
+                ok: true
+            });
+        }
+        catch(error) {
+            console.error(`Error: ${error.message}`);
+            return res.status(500).json({
+                error,
+                msg: "Delete song failed!"
             });
         }
     }

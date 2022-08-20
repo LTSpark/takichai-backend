@@ -30,7 +30,8 @@ class UsersService {
         return { user, token };
     }
 
-    async getAll(query={}, from=0, limit=0, sort='_id', order='asc') {
+    async getAll(query={}, from=0, limit=10, sort='_id', order='asc') {
+        console.log(query)
         return await User.find(query)
             .skip(Number(from))
             .limit(Number(limit))
@@ -77,11 +78,12 @@ class UsersService {
         }, { new: true }).exec();
     }
 
-    async update(id, description, img, password, publicProfile) {
+    async update(id, description, img, password, publicProfile, role) {
         let user = await User.findById(id).exec();
         user.description = description;
         user.publicProfile = publicProfile;
 
+        if (role) user.role = role;
         if (password) user.password = bcrypt.hashSync(password, 10);
         
         if (img) {

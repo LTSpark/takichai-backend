@@ -12,4 +12,6 @@ router.get('/song/:id', SongsGuard.getSongById, SongsController.getSongById);
 
 router.patch('/songs/favourite/:id', SongsGuard.addFavourite, SongsController.addFavourite);
 
+router.delete('/songs/:id', SongsGuard.delete, SongsController.delete);
+
 module.exports = router;
