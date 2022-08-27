@@ -86,18 +86,27 @@ class SongsService {
 
         console.log(stats)
         
-        await Song.findByIdAndUpdate(id, {
+        const song = await Song.findByIdAndUpdate(id, {
             $addToSet: {
                 "stats.likes": stats.like
-            },
-            $pull: {
-                "stats.dislikes": stats.dislike
             },
             $inc: {
                 "stats.reproductions": stats.reproductions,
                 "stats.fullReproductions": stats.fullReproductions
             }
-        }).exec();
+        }, { new: true }).exec();
+
+        if (stats.dislike) {
+            await Song.find({ _id: id }).updateOne({
+                stats: {
+                    $pull: {
+                        likes: userId
+                    },
+                    reproductions: song.stats.reproductions,
+                    fullReproductions: song.stats.fullReproductions
+                }
+            }).exec();
+        }
     }
 }
 
