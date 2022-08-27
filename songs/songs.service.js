@@ -19,8 +19,6 @@ class SongsService {
             img
         } = createSong;
 
-        console.log(createSong, img, songFile)
-
         const { url: songUrl, duration } = await cloudinaryAudioUpload(songFile);
 
         const song = new Song({
