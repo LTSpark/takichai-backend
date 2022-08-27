@@ -73,6 +73,32 @@ class SongsService {
             }
         }).exec();
     }
+
+    async updateSongStats(id, reproductions, fullReproductions, like, dislike, userId) {
+
+        let stats = {};
+
+        stats.reproductions =  reproductions ? 1 : 0;
+        stats.fullReproductions = fullReproductions ? 1 : 0;
+
+        if (like) stats.like = userId;
+        if (dislike) stats.dislike = userId;
+
+        console.log(stats)
+        
+        await Song.findByIdAndUpdate(id, {
+            $addToSet: {
+                "stats.likes": stats.like
+            },
+            $pull: {
+                "stats.dislikes": stats.dislike
+            },
+            $inc: {
+                "stats.reproductions": stats.reproductions,
+                "stats.fullReproductions": stats.fullReproductions
+            }
+        }).exec();
+    }
 }
 
 module.exports = new SongsService();

@@ -33,6 +33,15 @@ class SongsGuard {
         fieldValidation
     ];
 
+    stats = [
+        authUser,
+        query("reproductions").optional().isBoolean(),
+        query("fullReproductions").optional().isBoolean(),
+        query("like").optional().isBoolean(),
+        query("dislike").optional().isBoolean(),
+        fieldValidation
+    ]
+
 }
 
 module.exports = new SongsGuard();

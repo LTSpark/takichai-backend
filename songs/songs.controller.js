@@ -86,6 +86,26 @@ class SongsController {
             });
         }
     }
+
+    async updateSongStats(req, res) {
+        try {
+            const { id: userId } = req.user;
+            const { id } = req.params;
+            const { reproductions, fullReproductions, like, dislike } = req.query;
+            await SongsService.updateSongStats(id, reproductions, fullReproductions, like, dislike, userId);
+            return res.status(200).json({
+                msg: `Updated stats for song with id ${id}`,
+                ok: true
+            });
+        }
+        catch(error) {
+            console.error(`Error: ${error.message}`);
+            return res.status(500).json({
+                error,
+                msg: "Update songs stats failed!"
+            });
+        }
+    }
 }
 
 module.exports = new SongsController();

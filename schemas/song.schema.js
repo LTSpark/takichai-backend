@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const StatsSchema = require('./stats.schema');
 
 const SongSchema = Schema({
 
@@ -46,6 +47,10 @@ const SongSchema = Schema({
     mood: {
         type: String,
         required: [true, 'Mood is required']
+    },
+    stats: {
+        type: StatsSchema,
+        default: () => ({})
     }
 
 }, {
