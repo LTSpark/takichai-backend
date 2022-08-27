@@ -120,12 +120,10 @@ class UsersController {
 
     async update(req, res) {
         try {
-            let img;
-            const { description, publicProfile, password, role } = req.body;
+
+            const { description, publicProfile, password, role, img } = req.body;
             const { id: userId } = req.params;
-            if (req.files) {
-                if (req.files.img) img = req.files.img; 
-            }
+
             const updatedUser = await UsersService.update(userId, description, img, password, publicProfile, role);
             return res.status(200).json({
                 updatedUser,
@@ -135,7 +133,7 @@ class UsersController {
         }
         catch(error) {
             console.error(`Error: ${error.message}`);
-            return res.status(error.code).json({
+            return res.status(500).json({
                 ok: false,
                 msg: "User update failed!",
                 detail: error.message

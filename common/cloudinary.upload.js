@@ -5,7 +5,7 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY, 
     api_secret: process.env.CLOUDINARY_API_SECRET,
     secure: true
-  });
+  })
 
 const fileToBase64 = (mimetype, data) => {
     const base64Buffer = Buffer.from(data).toString('base64');
@@ -20,6 +20,11 @@ const secondsToMinutes = durationSeconds => {
 
 const cloudinaryImageUpload = async file => {
     const imageBase64 = fileToBase64(file.mimetype, file.data);
+    const { url } = await cloudinary.uploader.upload( imageBase64, {folder:`Takichai/Images`});
+    return { url };
+}
+
+const cloudinaryBase64ImageUpload = async imageBase64 => {
     const { url } = await cloudinary.uploader.upload( imageBase64, {folder:`Takichai/Images`});
     return { url };
 }
@@ -44,5 +49,6 @@ const cloudinaryDelete = (photoUrl, folder) => {
 module.exports = {
     cloudinaryAudioUpload,
     cloudinaryImageUpload,
-    cloudinaryDelete
+    cloudinaryDelete,
+    cloudinaryBase64ImageUpload
 }

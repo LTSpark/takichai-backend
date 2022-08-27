@@ -6,7 +6,7 @@ const Song = require('../schemas/song.schema');
 
 const Utils = require('../common/utils/utils');
 const { errorFactory } = require("../common/exception.factory");
-const { cloudinaryDelete, cloudinaryImageUpload } = require('../common/cloudinary.upload');
+const { cloudinaryDelete, cloudinaryBase64ImageUpload } = require('../common/cloudinary.upload');
 
 class UsersService {
 
@@ -80,16 +80,18 @@ class UsersService {
     }
 
     async update(id, description, img, password, publicProfile, role) {
-        let user = await User.findById(id).exec();
-        user.description = description;
-        user.publicProfile = publicProfile;
 
+        console.log(id)
+        let user = await User.findById(id).exec();
+        
+        if (description) user.description = description;
+        if (publicProfile) user.publicProfile = publicProfile;
         if (role) user.role = role;
         if (password) user.password = bcrypt.hashSync(password, 10);
         
         if (img) {
             if (user.imgUrl) cloudinaryDelete(user.imgUrl, 'Images');
-            let { url } = await cloudinaryImageUpload(img);
+            let { url } = await cloudinaryBase64ImageUpload(img);
             user.imgUrl = url;
         }
               
