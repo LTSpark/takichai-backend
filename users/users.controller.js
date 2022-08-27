@@ -120,11 +120,8 @@ class UsersController {
 
     async update(req, res) {
         try {
-
-            const { description, publicProfile, password, role, img } = req.body;
             const { id: userId } = req.params;
-
-            const updatedUser = await UsersService.update(userId, description, img, password, publicProfile, role);
+            const updatedUser = await UsersService.update(userId, req.body);
             return res.status(200).json({
                 updatedUser,
                 msg: `Updated user with id ${userId}!`,

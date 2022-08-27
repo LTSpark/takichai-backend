@@ -79,11 +79,13 @@ class UsersService {
         }, { new: true }).exec();
     }
 
-    async update(id, description, img, password, publicProfile, role) {
+    async update(id, updateUser) {
 
-        console.log(id)
         let user = await User.findById(id).exec();
-        
+
+        const { name, description, publicProfile, password, role, img } = updateUser;
+
+        if (name) user.name = name;
         if (description) user.description = description;
         if (publicProfile) user.publicProfile = publicProfile;
         if (role) user.role = role;
