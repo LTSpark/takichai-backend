@@ -29,7 +29,9 @@ class SongsService {
         });
 
         if (imgFile) {
+            console.log(imgFile)
             let { url } = await cloudinaryImageUpload(imgFile);
+            console.log(url)
             song.imageUrl = url;
         }
 
