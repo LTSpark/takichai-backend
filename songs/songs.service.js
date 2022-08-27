@@ -84,7 +84,7 @@ class SongsService {
         if (like) stats.like = userId;
         if (dislike) stats.dislike = userId;
 
-        console.log(stats)
+        console.log(stats);
         
         const song = await Song.findByIdAndUpdate(id, {
             $addToSet: {
