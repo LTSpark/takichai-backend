@@ -37,6 +37,12 @@ class UsersGuard {
 
     update = [
         authUser,
+        param("id").isMongoId(),
+        body("description").optional().not().isEmpty(),
+        body("publicProfile").optional().isBoolean(),
+        body("role").optional().isIn(["ADMIN", "USER"]),
+        body("password").optional().not().isEmpty(),
+        fieldValidation
     ]
 
     delete = [
