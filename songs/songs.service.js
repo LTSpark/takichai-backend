@@ -3,11 +3,11 @@ const User= require('../schemas/user.schema');
 
 const Utils = require('../common/utils/utils');
 
-const { cloudinaryAudioUpload, cloudinaryImageUpload, cloudinaryDelete } = require("../common/cloudinary.upload");
+const { cloudinaryAudioUpload, cloudinaryBase64ImageUpload, cloudinaryDelete } = require("../common/cloudinary.upload");
 
 class SongsService {
 
-    async create(createSong, songFile, imgFile, userId) {
+    async create(createSong, songFile, userId) {
 
         const { 
             name, 
@@ -15,7 +15,8 @@ class SongsService {
             genre, 
             description, 
             mood, 
-            instrumental, 
+            instrumental,
+            img
         } = createSong;
 
         const { url: songUrl, duration } = await cloudinaryAudioUpload(songFile);
@@ -27,10 +28,8 @@ class SongsService {
             author: userId
         });
 
-        if (imgFile) {
-            console.log(imgFile)
-            let { url } = await cloudinaryImageUpload(imgFile);
-            console.log(url)
+        if (img) {
+            let { url } = await cloudinaryBase64ImageUpload(img);
             song.imageUrl = url;
         }
 

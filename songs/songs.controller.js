@@ -4,12 +4,10 @@ class SongsController {
 
     async create(req, res) {
         try {
-            let img;
+
             const { id } = req.user;  
-            if (req.files) {
-                if (req.files.img) img = req.files.img; 
-            }
-            const song = await SongsService.create(req.body, req.files.song, img, id);
+            const song = await SongsService.create(req.body, req.files.song, id);
+
             return res.status(201).json({
                 song,
                 msg: "Song created successfully!",
@@ -88,9 +86,6 @@ class SongsController {
             });
         }
     }
-
-
-
 }
 
 module.exports = new SongsController();
